@@ -142,7 +142,7 @@ npm run start
 
 9- Push your code to your **public** repository.
 
-10- Fill in this [google form](https://forms.gle/pJ9x4jVTed4QsWMD6) with your info repository link and feedback.
+10- Fill in this [google form](https://forms.gle/pJ9x4jVTed4QsWMD6) with your info and repository link and feedback.
 
 ## What is not required
 - Styling, but the app should be usable; if you want to style, uncomment the tailwind code in `app.css` to use tailwind or write your own styles there without tailwind or any other library.
