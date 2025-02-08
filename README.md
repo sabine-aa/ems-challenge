@@ -20,6 +20,7 @@ Specs
   2. professional fields (e.g. job title, department, salary, start date, end date...),
   3. fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex
   4. Navigation buttons to go to the list of employees,
+
 - *Bonus*
   1. Employee Photo (to be stored in the app's file system)
   2. Documents such as CV, ID, etc. (to be stored in the app's file system)
@@ -39,6 +40,7 @@ Specs
   5. Have a link for each row leading to the single employee view of the employee,
   6. No more than 5 relevant columns,
   7. Navigation buttons to go to the new employee page and the list of timesheets,
+
 - *Bonus*
   5. Search bar
   6. Sorting by various fields
@@ -56,10 +58,10 @@ Specs
   8. Start and end time fields
   9. Employee field (dropdown with the list of employees)
   10. Navigation buttons to go to the employee, to the list of employees or to the list of timesheets
+
 - *Bonus*
   9. Validation: start time is before end time, end time is after start time.
   10. Summary: a text input specifying the work done during the timesheet period
-
 
 ### 4- Multiple Timesheets View (/timesheets)
 **List View**
@@ -71,6 +73,7 @@ Specs
 ![Calendar view](./images/calendar_view.png)
   12. A table view similar to the employee's table view with links to the single timesheet view
   13. A toggle to switch between calendar and table views
+
 - *Bonus*
   11. Search bar
   12. Filtering by employee
