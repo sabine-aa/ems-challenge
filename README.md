@@ -109,12 +109,19 @@ The stack is already implemented for you:
 - Database: SQLite.
 
 ## Steps
+
 1- [`git pull`](https://github.com/git-guides/git-pull) this repository or [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and pull your own fork.
+
 2- You need to [`install node and npm on your machine`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) if you haven't already.
+
 3- Add new fields to the employees and timesheets tables by modifying [`./app/db/schema.sql`](https://github.com/edi2xml/ems-challenge/blob/main/app/db/setup.sql)
+
 4- Create the db by running `npm run setup_db`
+
 5- Add new seed data by modifying [`./scripts/seed.js`](https://github.com/edi2xml/ems-challenge/blob/main/scripts/seed.js)
+
 6- Seed the db by running `npm run seed_db`
+
 7- Modify these 6 files to satisfy as many of the 13 requirements and the 12 bonuses as you want. Some scaffolding has been done for you, the single employee and timesheet views are not implemented, it is advisable to extract the form from the new resource pages and to reuse it in these pages:
   - [`app/routes/employees._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees._index/route.tsx)
   - [`app/routes/employees.$employeeId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.$employeeId._index/route.tsx)
@@ -122,15 +129,18 @@ The stack is already implemented for you:
   - [`app/routes/timesheets._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets._index/route.tsx)
   - [`app/routes/timesheets.$timesheetId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.$timesheetId._index/route.tsx)
   - [`app/routes/timesheets.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.new/route.tsx)
-7- Make sure the app runs with:
+
+8- Make sure the app runs with:
 ```bash
 npm run setup_db
 npm run seed
 npm run build
 npm run start
 ```
-8- Push your code to your **public** repository.
-9- Fill in this [google form](https://forms.gle/pJ9x4jVTed4QsWMD6) with your info repository link and feedback.
+
+9- Push your code to your **public** repository.
+
+10- Fill in this [google form](https://forms.gle/pJ9x4jVTed4QsWMD6) with your info repository link and feedback.
 
 ## What is not required
 - Styling, but the app should be usable; if you want to style, uncomment the tailwind code in `app.css` to use tailwind or write your own styles there without tailwind or any other library.
