@@ -5,7 +5,7 @@
 The goal is to create a simple [employee management system](https://en.wikipedia.org/wiki/Human_resource_management_system) that allows an HR personnel to manage a company's employees.
 The app should be simple to **create** on your part and to **use** on the end user's part.
 
-It consists of **4 pages**:
+It consists of **4 views**, there are 13 requirements and 12 bonus features.
 
 ### 1- Single Employee View (/employees/:id & /employees/new)
 **Create/Update Form**
@@ -105,4 +105,5 @@ Specs
 
 ## Tech stack
 - Frontend: React.js with React router
-- Backend: Remix backend or any other backend of your choice (e.g. rails, .net, django, flask, etc.)
+- Backend: React router (`loader` and `action` functions) backend or any other backend of your choice (e.g. rails, .net, django, flask, etc.)
+- Database: SQLite or any other database of your choice (e.g. PostgreSQL, MySQL, MongoDB, etc.)
