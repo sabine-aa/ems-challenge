@@ -2,7 +2,9 @@ import { useLoaderData } from "react-router-dom";
 import { getDB } from "~/db/getDB";
 import { Link } from "react-router-dom";
 
-// Fetch employees from database
+const BACKEND_URL = "http://localhost:5000"; // ✅ Ensure backend URL is used
+
+// ✅ Fetch employees from database
 export async function loader() {
   const db = await getDB();
   const employees = await db.all("SELECT * FROM employees;");
@@ -43,9 +45,10 @@ export default function EmployeesPage() {
                 <td className="border p-2 text-center">
                   {employee.photo_path ? (
                     <img
-                      src={employee.photo_path}
-                      alt={employee.full_name} // Fixed alt issue
-                      className="w-12 h-12 rounded-full object-cover"
+                      src={`${BACKEND_URL}${employee.photo_path}`} // ✅ Fix for file path
+                      alt={employee.full_name}
+                      className="rounded-full object-cover border border-gray-300"
+  style={{ width: "200px", height: "200px" }}
                     />
                   ) : (
                     <span className="text-gray-400">No Photo</span>
@@ -64,7 +67,7 @@ export default function EmployeesPage() {
                 <td className="border p-2 text-center">
                   {employee.cv_path ? (
                     <a
-                      href={employee.cv_path}
+                      href={`${BACKEND_URL}${employee.cv_path}`} // ✅ Fix for CV path
                       download
                       className="text-blue-500 hover:underline"
                     >

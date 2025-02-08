@@ -29,7 +29,8 @@ export default function EmployeePage() {
           <img
             src={employee.photo_path}
             alt={employee.full_name}
-            className="w-24 h-24 rounded-full object-cover mb-4"
+            className="rounded-full object-cover border border-gray-300"
+  style={{ width: "100px", height: "100px" }}
           />
         ) : (
           <p className="text-gray-500">No Photo Available</p>
