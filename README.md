@@ -103,9 +103,10 @@ Specs
   12- Filtering by employee
 
 ## Tech stack
-- Frontend: React.js with React router
-- Backend: React router (`loader` and `action` functions) backend or any other backend of your choice (e.g. rails, .net, django, flask, etc.)
-- Database: SQLite or any other database of your choice (e.g. PostgreSQL, MySQL, MongoDB, etc.)
+The stack is already implemented for you:
+- Frontend: React.js with React router,
+- Backend: React router `loader` and `action` functions, see implemented scaffold and [doc](https://reactrouter.com/),
+- Database: SQLite.
 
 ## Steps
 1- [`git pull`](https://github.com/git-guides/git-pull) this repository or [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and pull your own fork.
