@@ -122,7 +122,9 @@ The stack is already implemented for you:
 
 6- Seed the db by running `npm run seed_db`
 
-7- Modify these 6 files to satisfy as many of the 13 requirements and the 12 bonuses as you want. Some scaffolding has been done for you, the single employee and timesheet views are not implemented, it is advisable to extract the form from the new resource pages and to reuse it in these pages:
+7- Run the development server with `npm run dev`
+
+8- Modify these 6 files to satisfy as many of the 13 requirements and the 12 bonuses as you want. Some scaffolding has been done for you, the single employee and timesheet views are not implemented, it is advisable to extract the forms from the new resource pages as components and to reuse them in the single employee and timesheet views.
   - [`app/routes/employees._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees._index/route.tsx)
   - [`app/routes/employees.$employeeId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.$employeeId._index/route.tsx)
   - [`app/routes/employees.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/employees.new/route.tsx)
@@ -130,7 +132,7 @@ The stack is already implemented for you:
   - [`app/routes/timesheets.$timesheetId._index`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.$timesheetId._index/route.tsx)
   - [`app/routes/timesheets.new`](https://github.com/edi2xml/ems-challenge/blob/main/app/routes/timesheets.new/route.tsx)
 
-8- Make sure the app runs with:
+9- Make sure the app runs with:
 ```bash
 npm run setup_db
 npm run seed
