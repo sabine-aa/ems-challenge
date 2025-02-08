@@ -1,100 +1,80 @@
-# Welcome to React Router!
+# Full Stack Web Developer role technical challenge
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## Statement
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+The goal is to create a simple [employee management system](https://en.wikipedia.org/wiki/Human_resource_management_system) that allows an HR personnel to manage a company's employees.
+The app should be simple to **create** on your part and to **use** on the end user's part.
 
-## Features
+It consists of **4 pages**:
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+### 1- Single Employee View (/employees/:id & /employees/new)
+**Create/Update Form**
 
-## Getting Started
+A page displaying a form used to create and update a single employee, it allows the user to:
+- Create a new employee
+- Update an employee's information
 
-### Installation
+Specs
+- Requirements:
+  1. personal fields you want to include (e.g. name, email, phone number, date of birth...),
+  2. professional fields (e.g. job title, department, salary, start date, end date...),
+  3. fields validation (e.g. required fields, valid emails/phone numbers...) You don't have to validate uniqueness or anything too complex
+  4. Navigation buttons to go to the list of employees,
+- *Bonus*
+  1. Employee Photo (to be stored in the app's file system)
+  2. Documents such as CV, ID, etc. (to be stored in the app's file system)
+  3. Compliance validation (e.g. check if the employee is over 18 years old or if the salary is above a minimum wage or that an ID is uploaded)
+  4. Any other field you think is relevant
 
-Install the dependencies:
+Have at most 10 fields, a simple design using grid or flexbox is enough.
 
-```bash
-npm install
-```
+### 2- Multiple Employees View (/employees)
+**List View**
+A page displaying a list of employees, it allows the user to:
+- View the list of employees
+- Go to the single employee view of an employee
 
-### Development
+Specs
+- Requirements
+  5. Have a link for each row leading to the single employee view of the employee,
+  6. No more than 5 relevant columns,
+  7. Navigation buttons to go to the new employee page and the list of timesheets,
+- *Bonus*
+  5. Search bar
+  6. Sorting by various fields
+  7. Filtering
+  8. Pagination
 
-Start the development server with HMR:
+### 3- Single Timesheet View (/timesheets/:id & /timesheets/new)
+**Create/Update Form**
+A page displaying a form used to create and update a single timesheet, it allows the user to:
+- Create a new timesheet
+- Update a timesheet's information
 
-```bash
-npm run dev
-```
+Specs
+- Requirements
+  8. Start and end time fields
+  9. Employee field (dropdown with the list of employees)
+  10. Navigation buttons to go to the employee, to the list of employees or to the list of timesheets
+- *Bonus*
+  9. Validation: start time is before end time, end time is after start time.
+  10. Summary: a text input specifying the work done during the timesheet period
 
-Your application will be available at `http://localhost:5173`.
 
-## Building for Production
+### 4- Multiple Timesheets View (/timesheets)
+**List View**
+A page displaying the created timesheets
 
-Create a production build:
+Specs
+- Requirements
+  11. Calendar view using [`schedule-x.dev`](https://schedule-x.dev) component, see this [`example`](https://schedule-x.dev/docs/frameworks/react#example) on how to implement it
+![Calendar view](./images/calendar_view.png)
+  12. A table view similar to the employee's table view with links to the single timesheet view
+  13. A toggle to switch between calendar and table views
+- *Bonus*
+  11. Search bar
+  12. Filtering by employee
 
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-This template includes three Dockerfiles optimized for different package managers:
-
-- `Dockerfile` - for npm
-- `Dockerfile.pnpm` - for pnpm
-- `Dockerfile.bun` - for bun
-
-To build and run using Docker:
-
-```bash
-# For npm
-docker build -t my-app .
-
-# For pnpm
-docker build -f Dockerfile.pnpm -t my-app .
-
-# For bun
-docker build -f Dockerfile.bun -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+## Tech stack
+- Frontend: React.js with React router
+- Backend: Remix backend or any other backend of your choice (e.g. rails, .net, django, flask, etc.)
