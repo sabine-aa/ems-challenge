@@ -1,7 +1,17 @@
+// app/routes/timesheets._index.tsx
 import { useLoaderData } from "react-router";
 import { useState } from "react";
 import { getDB } from "~/db/getDB";
-
+import { useCalendarApp, ScheduleXCalendar } from '@schedule-x/react'
+import {
+  createViewDay,
+  createViewMonthAgenda,
+  createViewMonthGrid,
+  createViewWeek,
+} from '@schedule-x/calendar'
+import { createEventsServicePlugin } from '@schedule-x/events-service'
+ 
+import '@schedule-x/theme-default/dist/index.css'
 export async function loader() {
   const db = await getDB();
   const timesheetsAndEmployees = await db.all(
@@ -13,15 +23,15 @@ export async function loader() {
 
 export default function TimesheetsPage() {
   const { timesheetsAndEmployees } = useLoaderData();
+  const [isTableView, setIsTableView] = useState(true);
 
   return (
     <div>
       <div>
-        <button>Table View</button>
-        <button>Calendar View</button>
+        <button onClick={() => setIsTableView(true)}>Table View</button>
+        <button onClick={() => setIsTableView(false)}>Calendar View</button>
       </div>
-      {/* Replace `true` by a variable that is changed when the view buttons are clicked */}
-      {true ? (
+      {isTableView ? (
         <div>
           {timesheetsAndEmployees.map((timesheet: any) => (
             <div key={timesheet.id}>
@@ -31,6 +41,8 @@ export default function TimesheetsPage() {
                   <li>Employee: {timesheet.full_name} (ID: {timesheet.employee_id})</li>
                   <li>Start Time: {timesheet.start_time}</li>
                   <li>End Time: {timesheet.end_time}</li>
+                  <li><a href={`/timesheets/${timesheet.id}`}>View</a></li>
+                  
                 </ul>
               </ul>
             </div>
