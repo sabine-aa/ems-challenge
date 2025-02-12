@@ -1,6 +1,7 @@
 import { getDB } from "~/db/getDB";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 
+// 📌 Fetch a single timesheet
 export async function loader({ params }: { params: { timesheetId: string } }) {
   const db = await getDB();
   const timesheet = await db.get(
@@ -17,6 +18,22 @@ export async function loader({ params }: { params: { timesheetId: string } }) {
 
 export default function TimesheetPage() {
   const { timesheet } = useLoaderData();
+  const navigate = useNavigate();
+
+  // 📌 Function to delete the timesheet
+  async function handleDelete() {
+    if (!window.confirm("Are you sure you want to delete this timesheet?")) return;
+
+    const response = await fetch(`/timesheets/${timesheet.id}/delete`, {
+      method: "POST",
+    });
+
+    if (response.ok) {
+      navigate("/timesheets"); // ✅ Redirect to timesheets list after deletion
+    } else {
+      alert("Failed to delete timesheet.");
+    }
+  }
 
   return (
     <div>
@@ -30,6 +47,7 @@ export default function TimesheetPage() {
         <li><a href="/timesheets/new">New Timesheet</a></li>
         <li><a href="/employees">Employees</a></li>
         <li><a href={`/timesheets/${timesheet.id}/edit`}>Update</a></li>
+        <li><button onClick={handleDelete} className="text-red-500 hover:underline">Delete</button></li> 
       </ul>
     </div>
   );
