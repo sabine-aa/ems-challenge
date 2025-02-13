@@ -54,7 +54,6 @@ export default function TimesheetPage() {
           </p>
         </div>
 
-        {/* Summary Section */}
         <div className="mt-4">
           <h2 className="text-xl font-semibold text-gray-800 mb-2">Summary</h2>
           <div className="bg-gray-100 p-4 rounded-lg text-gray-700">
