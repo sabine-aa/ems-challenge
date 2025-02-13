@@ -29,11 +29,12 @@ export async function action({
   const formData = await request.formData();
   const start_time = formData.get("start_time") as string;
   const end_time = formData.get("end_time") as string;
+  const summary = formData.get("summary") as string; 
+  
   const db = await getDB();
-
   await db.run(
-    "UPDATE timesheets SET start_time = ?, end_time = ? WHERE id = ?",
-    [start_time, end_time, params.timesheetId]
+    "UPDATE timesheets SET start_time = ?, end_time = ?, summary = ? WHERE id = ?",
+    [start_time, end_time, summary, params.timesheetId]
   );
 
   return redirect(`/timesheets/${params.timesheetId}`);
@@ -46,6 +47,7 @@ export default function EditTimesheetPage() {
       full_name: string;
       start_time: string;
       end_time: string;
+      summary: string;
     };
   };
 
@@ -80,6 +82,20 @@ export default function EditTimesheetPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Summary of Work:
+            </label>
+            <textarea
+              name="summary"
+              defaultValue={timesheet.summary}
+              required
+              rows={4}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            ></textarea>
+          </div>
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -98,18 +114,12 @@ export default function EditTimesheetPage() {
             </a>
           </li>
           <li>
-            <a
-              href="/timesheets"
-              className="text-green-600 hover:underline"
-            >
+            <a href="/timesheets" className="text-green-600 hover:underline">
               Timesheets
             </a>
           </li>
           <li>
-            <a
-              href="/employees"
-              className="text-gray-600 hover:underline"
-            >
+            <a href="/employees" className="text-gray-600 hover:underline">
               Employees
             </a>
           </li>

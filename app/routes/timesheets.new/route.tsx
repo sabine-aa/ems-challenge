@@ -15,8 +15,9 @@ export const action: ActionFunction = async ({ request }) => {
   const employee_id = formData.get("employee_id") as string;
   const start_time = formData.get("start_time") as string;
   const end_time = formData.get("end_time") as string;
-
-  if (!employee_id || !start_time || !end_time) {
+  const summary = formData.get("summary") as string; 
+  
+  if (!employee_id || !start_time || !end_time || !summary) {
     return { error: "All fields are required." };
   }
 
@@ -26,8 +27,8 @@ export const action: ActionFunction = async ({ request }) => {
 
   const db = await getDB();
   await db.run(
-    "INSERT INTO timesheets (employee_id, start_time, end_time) VALUES (?, ?, ?)",
-    [employee_id, start_time, end_time]
+    "INSERT INTO timesheets (employee_id, start_time, end_time, summary) VALUES (?, ?, ?, ?)",
+    [employee_id, start_time, end_time, summary]
   );
 
   return redirect("/timesheets");
@@ -99,6 +100,23 @@ export default function NewTimesheetPage() {
             />
           </div>
 
+          <div>
+            <label
+              htmlFor="summary"
+              className="block text-gray-600 font-semibold mb-1"
+            >
+              Summary of Work:
+            </label>
+            <textarea
+              name="summary"
+              id="summary"
+              required
+              rows={4}
+              placeholder="Brief description of work done"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            ></textarea>
+          </div>
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -111,10 +129,7 @@ export default function NewTimesheetPage() {
 
         <ul className="space-y-2 text-center">
           <li>
-            <a
-              href="/timesheets"
-              className="text-blue-600 hover:underline"
-            >
+            <a href="/timesheets" className="text-blue-600 hover:underline">
               Timesheets
             </a>
           </li>

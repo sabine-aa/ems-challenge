@@ -4,7 +4,10 @@ import { useLoaderData, useNavigate } from "react-router";
 export async function loader({ params }: { params: { timesheetId: string } }) {
   const db = await getDB();
   const timesheet = await db.get(
-    "SELECT timesheets.*, employees.full_name FROM timesheets JOIN employees ON timesheets.employee_id = employees.id WHERE timesheets.id = ?",
+    `SELECT timesheets.*, employees.full_name 
+     FROM timesheets 
+     JOIN employees ON timesheets.employee_id = employees.id 
+     WHERE timesheets.id = ?`,
     [params.timesheetId]
   );
 
@@ -19,7 +22,7 @@ export default function TimesheetPage() {
   const { timesheet } = useLoaderData();
   const navigate = useNavigate();
 
- 
+  // Function to delete the timesheet
   async function handleDelete() {
     if (!window.confirm("Are you sure you want to delete this timesheet?")) return;
 
@@ -28,7 +31,7 @@ export default function TimesheetPage() {
     });
 
     if (response.ok) {
-      navigate("/timesheets"); 
+      navigate("/timesheets");
     } else {
       alert("Failed to delete timesheet.");
     }
@@ -51,7 +54,21 @@ export default function TimesheetPage() {
             <span className="font-semibold">End Time:</span> {timesheet.end_time}
           </p>
         </div>
+
+        {/* Summary Section */}
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Summary</h2>
+          <div className="bg-gray-100 p-4 rounded-lg text-gray-700">
+            {timesheet.summary ? (
+              <p>{timesheet.summary}</p>
+            ) : (
+              <p className="text-gray-500">No summary provided.</p>
+            )}
+          </div>
+        </div>
+
         <hr className="my-4" />
+
         <ul className="space-y-2">
           <li>
             <a
