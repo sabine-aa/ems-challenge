@@ -3,7 +3,7 @@ import { getDB } from "~/db/getDB";
 import { useEffect, useState } from "react";
 
 const BACKEND_URL = "http://localhost:5000"; // make sure to run backend server on node server.js
-
+const ITEMS_PER_PAGE = 10;
 
 export async function loader() {
   const db = await getDB();
@@ -19,8 +19,9 @@ export default function EmployeesPage() {
   const [filteredEmployees, setFilteredEmployees] = useState(employees);
   const [sortField, setSortField] = useState<string>("id");
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter employees based on search term
+  // Filter employees based on search term and sort them
   useEffect(() => {
     const filtered = employees.filter((employee) =>
       `${employee.full_name} ${employee.email} ${employee.phone_number}`
@@ -34,8 +35,23 @@ export default function EmployeesPage() {
     });
 
     setFilteredEmployees(sorted);
+    setCurrentPage(1);
   }, [searchTerm, employees, sortField, sortOrder]);
 
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredEmployees.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentEmployees = filteredEmployees.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
+  // Handle Page Change
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   // Handle sorting
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -93,9 +109,9 @@ export default function EmployeesPage() {
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody className="text-gray-700 text-sm font-light">
-             {filteredEmployees.length > 0 ? (
-              filteredEmployees.map((employee, index) => (
+           <tbody className="text-gray-700 text-sm font-light">
+            {currentEmployees.length > 0 ? (
+              currentEmployees.map((employee, index) => (
                 <tr
                   key={employee.id}
                   className={`border-b ${
@@ -160,6 +176,26 @@ export default function EmployeesPage() {
             )}
           </tbody>
         </table>
+      </div>
+{/* Pagination */}
+      <div className="mt-6 flex justify-center items-center space-x-2">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition-colors"
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2 border rounded">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition-colors"
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
 
       <div className="mt-6 flex space-x-4 justify-center">
