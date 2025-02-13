@@ -55,6 +55,9 @@ export default function EmployeePage() {
             <strong>Phone:</strong> {employee.phone_number}
           </p>
           <p className="text-gray-600">
+            <strong>Date Of Birth:</strong> {employee.date_of_birth}
+          </p>
+          <p className="text-gray-600">
             <strong>Job Title:</strong> {employee.job_title}
           </p>
           <p className="text-gray-600">

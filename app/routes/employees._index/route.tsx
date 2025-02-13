@@ -30,11 +30,7 @@ export default function EmployeesPage() {
               <th className="py-3 px-4 text-left">Full Name</th>
               <th className="py-3 px-4 text-left">Email</th>
               <th className="py-3 px-4 text-left">Phone</th>
-              <th className="py-3 px-4 text-left">Job Title</th>
-              <th className="py-3 px-4 text-left">Department</th>
-              <th className="py-3 px-4 text-left">Salary</th>
-              <th className="py-3 px-4 text-left">Start Date</th>
-              <th className="py-3 px-4 text-left">CV</th>
+              <th className="py-3 px-4 text-center">CV</th>
               <th className="py-3 px-4 text-center">Actions</th>
             </tr>
           </thead>
@@ -65,14 +61,9 @@ export default function EmployeesPage() {
                   <td className="py-3 px-4">{employee.full_name}</td>
                   <td className="py-3 px-4">{employee.email}</td>
                   <td className="py-3 px-4">{employee.phone_number}</td>
-                  <td className="py-3 px-4">{employee.job_title}</td>
-                  <td className="py-3 px-4">{employee.department}</td>
-                  <td className="py-3 px-4">
-                    ${employee.salary.toLocaleString()}
-                  </td>
-                  <td className="py-3 px-4">{employee.start_date}</td>
-
-                  {/* CV Download Link */}
+                 
+                  
+                  {/* CV */}
                   <td className="py-3 px-4 text-center">
                     {employee.cv_path ? (
                       <a
