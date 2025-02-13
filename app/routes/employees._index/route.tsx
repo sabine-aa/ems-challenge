@@ -11,10 +11,14 @@ export async function loader() {
   return { employees };
 }
 
+type SortOrder = "asc" | "desc";
+
 export default function EmployeesPage() {
   const { employees } = useLoaderData() as { employees: any[] };
-   const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState(employees);
+  const [sortField, setSortField] = useState<string>("id");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
 
   // Filter employees based on search term
   useEffect(() => {
@@ -23,8 +27,32 @@ export default function EmployeesPage() {
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
     );
-    setFilteredEmployees(filtered);
-  }, [searchTerm, employees]);
+   const sorted = [...filtered].sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    setFilteredEmployees(sorted);
+  }, [searchTerm, employees, sortField, sortOrder]);
+
+  // Handle sorting
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  // Get sort arrow
+  const getSortArrow = (field: string) => {
+    if (sortField === field) {
+      return sortOrder === "asc" ? "▲" : "▼";
+    }
+    return "";
+  };
 
 
   return (
@@ -46,9 +74,19 @@ export default function EmployeesPage() {
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
           <thead>
             <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-              <th className="py-3 px-4 text-left">ID</th>
+              <th
+                className="py-3 px-4 text-left cursor-pointer"
+                onClick={() => handleSort("id")}
+              >
+                ID {getSortArrow("id")}
+              </th>
               <th className="py-3 px-4 text-left">Photo</th>
-              <th className="py-3 px-4 text-left">Full Name</th>
+              <th
+                className="py-3 px-4 text-left cursor-pointer"
+                onClick={() => handleSort("full_name")}
+              >
+                Full Name {getSortArrow("full_name")}
+              </th>
               <th className="py-3 px-4 text-left">Email</th>
               <th className="py-3 px-4 text-left">Phone</th>
               <th className="py-3 px-4 text-center">CV</th>
