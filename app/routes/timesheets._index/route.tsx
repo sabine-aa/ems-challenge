@@ -24,8 +24,9 @@ export async function loader() {
   const timesheetsAndEmployees: Timesheet[] = await db.all(
     "SELECT timesheets.*, employees.full_name, employees.id AS employee_id FROM timesheets JOIN employees ON timesheets.employee_id = employees.id"
   );
+  const employees = await db.all("SELECT id, full_name FROM employees");
 
-  return { timesheetsAndEmployees };
+  return { timesheetsAndEmployees, employees };
 }
 
 function formatScheduleXTime(dateTime: string): string {
@@ -41,11 +42,21 @@ function formatScheduleXTime(dateTime: string): string {
 }
 
 export default function TimesheetsPage() {
-  const { timesheetsAndEmployees } = useLoaderData() as {
+  const { timesheetsAndEmployees, employees } = useLoaderData() as {
     timesheetsAndEmployees: Timesheet[];
+    employees: { id: number; full_name: string }[];
   };
+
   const [isTableView, setIsTableView] = useState(true);
   const [eventsService] = useState(() => createEventsServicePlugin());
+  const [selectedEmployee, setSelectedEmployee] = useState<number | "">("");
+
+  // Filtered Timesheets
+  const filteredTimesheets = selectedEmployee
+    ? timesheetsAndEmployees.filter(
+        (timesheet) => timesheet.employee_id === selectedEmployee
+      )
+    : timesheetsAndEmployees;
 
   const calendar = useCalendarApp({
     views: [
@@ -54,7 +65,7 @@ export default function TimesheetsPage() {
       createViewMonthGrid(),
       createViewMonthAgenda(),
     ],
-    events: timesheetsAndEmployees.map((timesheet: Timesheet) => ({
+    events: filteredTimesheets.map((timesheet: Timesheet) => ({
       id: timesheet.id.toString(),
       title: `Employee: ${timesheet.full_name}`,
       start: formatScheduleXTime(timesheet.start_time),
@@ -72,6 +83,26 @@ export default function TimesheetsPage() {
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
         Timesheets
       </h1>
+
+      {/* Employee Filter Dropdown */}
+      <div className="max-w-xs mx-auto mb-6">
+        <select
+          value={selectedEmployee}
+          onChange={(e) =>
+            setSelectedEmployee(
+              e.target.value === "" ? "" : Number(e.target.value)
+            )
+          }
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">All Employees</option>
+          {employees.map((employee) => (
+            <option key={employee.id} value={employee.id}>
+              {employee.full_name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="flex justify-center space-x-4 mb-6">
         <button
@@ -98,7 +129,7 @@ export default function TimesheetsPage() {
 
       {isTableView ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {timesheetsAndEmployees.map((timesheet: Timesheet) => (
+          {filteredTimesheets.map((timesheet: Timesheet) => (
             <div
               key={timesheet.id}
               className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow"
