@@ -1,4 +1,4 @@
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useNavigate } from "react-router-dom";
 import { getDB } from "~/db/getDB";
 const BACKEND_URL = "http://localhost:5000"; // make sure backend is running using node server.js
 
@@ -21,6 +21,28 @@ export async function loader({
 
 export default function EmployeePage() {
   const { employee } = useLoaderData() as { employee: any };
+  const navigate = useNavigate();
+
+  // Handle Delete Function
+  const handleDelete = async () => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete ${employee.full_name}? This action cannot be undone.`
+      )
+    ) {
+      const response = await fetch(`/employees/${employee.id}/delete`, {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        alert("Employee deleted successfully.");
+        navigate("/employees");
+      } else {
+        alert("Failed to delete employee. Please try again.");
+      }
+    }
+  };
+
 
   return (
     <div className="container mx-auto p-6">
@@ -104,6 +126,12 @@ export default function EmployeePage() {
         >
           Edit Employee
         </Link>
+         <button
+          onClick={handleDelete}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+        >
+          Delete Employee
+        </button>
       </div>
     </div>
   );

@@ -22,7 +22,6 @@ export default function TimesheetPage() {
   const { timesheet } = useLoaderData();
   const navigate = useNavigate();
 
-  // Function to delete the timesheet
   async function handleDelete() {
     if (!window.confirm("Are you sure you want to delete this timesheet?")) return;
 
