@@ -1,6 +1,6 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { getDB } from "~/db/getDB";
-
+import { useEffect, useState } from "react";
 
 const BACKEND_URL = "http://localhost:5000"; // make sure to run backend server on node server.js
 
@@ -13,14 +13,35 @@ export async function loader() {
 
 export default function EmployeesPage() {
   const { employees } = useLoaderData() as { employees: any[] };
+   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredEmployees, setFilteredEmployees] = useState(employees);
+
+  // Filter employees based on search term
+  useEffect(() => {
+    const filtered = employees.filter((employee) =>
+      `${employee.full_name} ${employee.email} ${employee.phone_number}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+    setFilteredEmployees(filtered);
+  }, [searchTerm, employees]);
+
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
         Employees
       </h1>
-
-      {/* Employees Table */}
+     <div className="max-w-md mx-auto mb-6">
+        <input
+          type="text"
+          placeholder="Search employees..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
           <thead>
@@ -35,8 +56,8 @@ export default function EmployeesPage() {
             </tr>
           </thead>
           <tbody className="text-gray-700 text-sm font-light">
-            {employees.length > 0 ? (
-              employees.map((employee, index) => (
+             {filteredEmployees.length > 0 ? (
+              filteredEmployees.map((employee, index) => (
                 <tr
                   key={employee.id}
                   className={`border-b ${
