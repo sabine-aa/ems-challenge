@@ -1,9 +1,12 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import { getDB } from "~/db/getDB";
-import { Link, useParams } from "react-router-dom";
+const BACKEND_URL = "http://localhost:5000"; // make sure backend is running using node server.js
 
-// Fetch single employee from database
-export async function loader({ params }: { params: { employeeId: string } }) {
+export async function loader({
+  params,
+}: {
+  params: { employeeId: string };
+}) {
   const db = await getDB();
   const employee = await db.get("SELECT * FROM employees WHERE id = ?;", [
     params.employeeId,
@@ -21,54 +24,80 @@ export default function EmployeePage() {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Employee Details</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        Employee Details
+      </h1>
 
-      <div className="border rounded-lg p-4 shadow-md bg-white">
+      <div className="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6">
         {/* Employee Photo */}
-        {employee.photo_path ? (
-          <img
-            src={employee.photo_path}
-            alt={employee.full_name}
-            className="rounded-full object-cover border border-gray-300"
-  style={{ width: "100px", height: "100px" }}
-          />
-        ) : (
-          <p className="text-gray-500">No Photo Available</p>
-        )}
+        <div className="flex justify-center mb-4">
+          {employee.photo_path ? (
+            <img
+              src={`${BACKEND_URL}${employee.photo_path}`}
+              alt={employee.full_name}
+              className="w-32 h-32 rounded-full object-cover border border-gray-300"
+            />
+          ) : (
+            <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+              No Photo
+            </div>
+          )}
+        </div>
 
-        {/* Employee Info */}
-        <p><strong>Full Name:</strong> {employee.full_name}</p>
-        <p><strong>Email:</strong> {employee.email}</p>
-        <p><strong>Phone:</strong> {employee.phone_number}</p>
-        <p><strong>Job Title:</strong> {employee.job_title}</p>
-        <p><strong>Department:</strong> {employee.department}</p>
-        <p><strong>Salary:</strong> ${employee.salary.toLocaleString()}</p>
-        <p><strong>Start Date:</strong> {employee.start_date}</p>
-        <p><strong>End Date:</strong> {employee.end_date || "N/A"}</p>
+        <div className="space-y-2 text-center">
+          <p className="text-xl font-semibold text-gray-700">
+            {employee.full_name}
+          </p>
+          <p className="text-gray-600">
+            <strong>Email:</strong> {employee.email}
+          </p>
+          <p className="text-gray-600">
+            <strong>Phone:</strong> {employee.phone_number}
+          </p>
+          <p className="text-gray-600">
+            <strong>Job Title:</strong> {employee.job_title}
+          </p>
+          <p className="text-gray-600">
+            <strong>Department:</strong> {employee.department}
+          </p>
+          <p className="text-gray-600">
+            <strong>Salary:</strong> $
+            {employee.salary.toLocaleString()}
+          </p>
+          <p className="text-gray-600">
+            <strong>Start Date:</strong> {employee.start_date}
+          </p>
+          <p className="text-gray-600">
+            <strong>End Date:</strong> {employee.end_date || "N/A"}
+          </p>
+        </div>
 
         {/* Download CV */}
-        {employee.cv_path ? (
-          <p>
-            <a href={employee.cv_path} download className="text-blue-500 hover:underline">
+        <div className="mt-4 text-center">
+          {employee.cv_path ? (
+            <a
+              href={`${BACKEND_URL}${employee.cv_path}`}
+              download
+              className="text-blue-500 hover:underline"
+            >
               Download CV
             </a>
-          </p>
-        ) : (
-          <p className="text-gray-500">No CV Available</p>
-        )}
+          ) : (
+            <p className="text-gray-500">No CV Available</p>
+          )}
+        </div>
       </div>
 
-      {/* Navigation Links */}
-      <div className="mt-6">
+      <div className="mt-6 flex justify-center space-x-4">
         <Link
           to="/employees"
-          className="inline-block bg-gray-500 text-white px-4 py-2 rounded mr-4"
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
         >
-          Back to Employees
+          &larr; Back to Employees
         </Link>
         <Link
           to={`/employees/${employee.id}/edit`}
-          className="inline-block bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
         >
           Edit Employee
         </Link>

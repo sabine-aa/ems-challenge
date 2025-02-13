@@ -2,12 +2,11 @@ import { Form, redirect, type ActionFunction } from "react-router-dom";
 import { getDB } from "~/db/getDB";
 import { Link } from "react-router-dom";
 
-const BACKEND_URL = "http://localhost:5000"; // Backend URL
+const BACKEND_URL = "http://localhost:5000"; // make ure backend is running using node server.js
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
-  // ✅ Upload files to backend
   const uploadFile = async (file: File | null) => {
     if (!file) return null;
 
@@ -24,7 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     const data = await response.json();
-    return data.filePath; // ✅ Returns uploaded file path (e.g., /uploads/photo.png)
+    return data.filePath; 
   };
 
   const newEmployee = {
@@ -41,7 +40,6 @@ export const action: ActionFunction = async ({ request }) => {
     cv_path: await uploadFile(formData.get("cv") as File), // Upload CV
   };
 
-  // ✅ Insert data into database
   const db = await getDB();
   await db.run(
     `INSERT INTO employees (full_name, email, phone_number, date_of_birth, job_title, 
@@ -65,80 +63,164 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect("/employees");
 };
 
-// ✅ New Employee Form
 export default function NewEmployeePage() {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Create New Employee</h1>
+    <div className="max-w-3xl mx-auto p-6">
+      <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">
+        Create New Employee
+      </h1>
 
-      <Form method="post" encType="multipart/form-data" className="border p-4 rounded-lg shadow-md bg-white">
-        <label className="block mb-2">
-          Full Name:
-          <input type="text" name="full_name" required className="w-full p-2 border rounded" />
-        </label>
+      <Form
+        method="post"
+        encType="multipart/form-data"
+        className="bg-white rounded-lg shadow-md p-6 space-y-4"
+      >
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Full Name:
+          </label>
+          <input
+            type="text"
+            name="full_name"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Email:
-          <input type="email" name="email" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Email:
+          </label>
+          <input
+            type="email"
+            name="email"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Phone:
-          <input type="text" name="phone_number" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Phone:
+          </label>
+          <input
+            type="text"
+            name="phone_number"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Date of Birth:
-          <input type="date" name="date_of_birth" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Date of Birth:
+          </label>
+          <input
+            type="date"
+            name="date_of_birth"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Job Title:
-          <input type="text" name="job_title" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Job Title:
+          </label>
+          <input
+            type="text"
+            name="job_title"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Department:
-          <input type="text" name="department" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Department:
+          </label>
+          <input
+            type="text"
+            name="department"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Salary:
-          <input type="number" name="salary" min="15000" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Salary:
+          </label>
+          <input
+            type="number"
+            name="salary"
+            min="15000"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+<div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Start Date:
+          </label>
+          <input
+            type="date"
+            name="start_date"
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
-        <label className="block mb-2">
-          Start Date:
-          <input type="date" name="start_date" required className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            End Date:
+          </label>
+          <input
+            type="date"
+            name="end_date"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Employee Photo:
+          </label>
+          <input
+            type="file"
+            name="photo"
+            accept="image/*"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
 
-        <label className="block mb-2">
-          End Date:
-          <input type="date" name="end_date" className="w-full p-2 border rounded" />
-        </label>
+        <div>
+          <label className="block text-gray-600 font-semibold mb-1">
+            Upload CV:
+          </label>
+          <input
+            type="file"
+            name="cv"
+            accept=".pdf,.doc,.docx"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+          />
+        </div>
 
-        {/* Photo Upload */}
-        <label className="block mb-2">
-          Employee Photo:
-          <input type="file" name="photo" accept="image/*" className="w-full p-2 border rounded" />
-        </label>
-
-        {/* CV Upload */}
-        <label className="block mb-2">
-          Upload CV:
-          <input type="file" name="cv" accept=".pdf,.doc,.docx" className="w-full p-2 border rounded" />
-        </label>
-
-        <button type="submit" className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
           Create Employee
         </button>
       </Form>
-      <Link
+
+      <div className="mt-6 text-center">
+        <Link
           to="/employees"
-          className="inline-block bg-gray-500 text-white px-4 py-2 rounded mr-4"
+          className="inline-block bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
         >
           Back to Employees
         </Link>
+      </div>
     </div>
   );
 }

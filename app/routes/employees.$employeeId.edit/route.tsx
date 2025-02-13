@@ -1,10 +1,13 @@
 import { useLoaderData, Form, redirect } from "react-router-dom";
 import { getDB } from "~/db/getDB";
 
-const BACKEND_URL = "http://localhost:5000"; // ✅ Ensure backend URL is used
+const BACKEND_URL = "http://localhost:5000"; // make sure backend is running uing node server.js
 
-// ✅ Fetch employee details for the form
-export async function loader({ params }: { params: { employeeId: string } }) {
+export async function loader({
+  params,
+}: {
+  params: { employeeId: string };
+}) {
   const db = await getDB();
   const employee = await db.get("SELECT * FROM employees WHERE id = ?;", [
     params.employeeId,
@@ -17,8 +20,13 @@ export async function loader({ params }: { params: { employeeId: string } }) {
   return { employee };
 }
 
-// ✅ Handle form submission and update employee
-export async function action({ request, params }: { request: Request; params: { employeeId: string } }) {
+export async function action({
+  request,
+  params,
+}: {
+  request: Request;
+  params: { employeeId: string };
+}) {
   const formData = await request.formData();
 
   const photo = formData.get("photo") as File;
@@ -27,7 +35,6 @@ export async function action({ request, params }: { request: Request; params: { 
   let photo_path = formData.get("current_photo") as string;
   let cv_path = formData.get("current_cv") as string;
 
-  // ✅ Upload new photo if selected
   if (photo && photo.name) {
     const uploadForm = new FormData();
     uploadForm.append("file", photo);
@@ -41,7 +48,6 @@ export async function action({ request, params }: { request: Request; params: { 
     photo_path = uploadData.filePath;
   }
 
-  // ✅ Upload new CV if selected
   if (cv && cv.name) {
     const uploadForm = new FormData();
     uploadForm.append("file", cv);
@@ -93,112 +99,207 @@ export async function action({ request, params }: { request: Request; params: { 
   return redirect(`/employees/${params.employeeId}`);
 }
 
-
-// ✅ Edit Employee Page UI
 export default function EditEmployeePage() {
   const { employee } = useLoaderData() as { employee: any };
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Edit Employee</h1>
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Edit Employee
+        </h1>
 
-      <Form method="post" encType="multipart/form-data" className="border p-4 rounded-lg shadow-md bg-white">
-        {/* Full Name */}
-        <label className="block mb-2">
-          Full Name:
-          <input type="text" name="full_name" defaultValue={employee.full_name} required className="w-full p-2 border rounded" />
-        </label>
+        <Form
+          method="post"
+          encType="multipart/form-data"
+          className="space-y-4"
+        >
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Full Name:
+            </label>
+            <input
+              type="text"
+              name="full_name"
+              defaultValue={employee.full_name}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Email */}
-        <label className="block mb-2">
-          Email:
-          <input type="email" name="email" defaultValue={employee.email} required className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Email:
+            </label>
+            <input
+              type="email"
+              name="email"
+              defaultValue={employee.email}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Phone */}
-        <label className="block mb-2">
-          Phone:
-          <input type="text" name="phone_number" defaultValue={employee.phone_number} required className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Job Title:
+            </label>
+            <input
+              type="text"
+              name="job_title"
+              defaultValue={employee.job_title}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Job Title */}
-        <label className="block mb-2">
-          Job Title:
-          <input type="text" name="job_title" defaultValue={employee.job_title} required className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Salary:
+            </label>
+            <input
+              type="number"
+              name="salary"
+              defaultValue={employee.salary}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+           <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Phone Number:
+            </label>
+            <input
+              type="text"
+              name="phone_number"
+              defaultValue={employee.phone_number}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Department */}
-        <label className="block mb-2">
-          Department:
-          <input type="text" name="department" defaultValue={employee.department} required className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Date of Birth:
+            </label>
+            <input
+              type="date"
+              name="date_of_birth"
+              defaultValue={employee.date_of_birth}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Salary */}
-        <label className="block mb-2">
-          Salary:
-          <input type="number" name="salary" defaultValue={employee.salary} required className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Department:
+            </label>
+            <input
+              type="text"
+              name="department"
+              defaultValue={employee.department}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Start Date */}
-        <label className="block mb-2">
-          Start Date:
-          <input type="date" name="start_date" defaultValue={employee.start_date} required className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Current Photo:
+            </label>
+            {employee.photo_path ? (
+              <img
+                src={`${BACKEND_URL}${employee.photo_path}`}
+                alt="Current Photo"
+                className="w-32 h-32 rounded-full object-cover border border-gray-300 mb-2"
+              />
+            ) : (
+              <p className="text-gray-500">No photo available</p>
+            )}
+            <input
+              type="hidden"
+              name="current_photo"
+              value={employee.photo_path}
+            />
+            <input
+              type="file"
+              name="photo"
+              accept="image/*"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+          </div>
 
-        {/* End Date (Nullable) */}
-        <label className="block mb-2">
-          End Date:
-          <input type="date" name="end_date" defaultValue={employee.end_date || ""} className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Current CV:
+            </label>
+            {employee.cv_path ? (
+              <a
+                href={`${BACKEND_URL}${employee.cv_path}`}
+                download
+                className="text-blue-500 hover:underline"
+              >
+                Download Current CV
+              </a>
+            ) : (
+              <p className="text-gray-500">No CV available</p>
+            )}
+            <input
+              type="hidden"
+              name="current_cv"
+              value={employee.cv_path}
+            />
+            <input
+              type="file"
+              name="cv"
+              accept=".pdf,.doc,.docx"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+            />
+          </div>
 
-        {/* Current Photo Preview */}
-        <label className="block mb-2">
-          Current Photo:
-          {employee.photo_path ? (
-            <img src={`${BACKEND_URL}${employee.photo_path}`} alt="Current Photo" className="rounded-full object-cover border border-gray-300"
-  style={{ width: "200px", height: "200px" }}/>
-          ) : (
-            <p className="text-gray-500">No photo available</p>
-          )}
-          <input type="hidden" name="current_photo" value={employee.photo_path} />
-        </label>
 
-        {/* Upload New Photo */}
-        <label className="block mb-2">
-          Upload New Photo:
-          <input type="file" name="photo" accept="image/*" className="w-full p-2 border rounded" />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              Start Date:
+            </label>
+            <input
+              type="date"
+              name="start_date"
+              defaultValue={employee.start_date}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Current CV Download */}
-        <label className="block mb-2">
-          Current CV:
-          {employee.cv_path ? (
-            <a href={`${BACKEND_URL}${employee.cv_path}`} download className="text-blue-500 hover:underline">
-              Download Current CV
-            </a>
-          ) : (
-            <p className="text-gray-500">No CV available</p>
-          )}
-          <input type="hidden" name="current_cv" value={employee.cv_path} />
-        </label>
+          <div>
+            <label className="block text-gray-600 font-semibold mb-1">
+              End Date:
+            </label>
+            <input
+              type="date"
+              name="end_date"
+              defaultValue={employee.end_date || ""}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        {/* Upload New CV */}
-        <label className="block mb-2">
-          Upload New CV:
-          <input type="file" name="cv" accept=".pdf,.doc,.docx" className="w-full p-2 border rounded" />
-        </label>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Save Changes
+          </button>
+        </Form>
 
-        {/* Submit Button */}
-        <button type="submit" className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-          Save Changes
-        </button>
-      </Form>
-
-      {/* Navigation Links */}
-      <div className="mt-6">
-        <a href={`/employees/${employee.id}`} className="inline-block bg-gray-500 text-white px-4 py-2 rounded mr-4">
-          Cancel
-        </a>
+        <div className="mt-6 text-center">
+          <a
+            href={`/employees/${employee.id}`}
+            className="inline-block bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+          >
+            Cancel
+          </a>
+        </div>
       </div>
     </div>
   );

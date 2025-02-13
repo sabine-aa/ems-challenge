@@ -4,7 +4,7 @@ import { getDB } from "~/db/getDB";
 
 export async function loader() {
   const db = await getDB();
-  const employees = await db.all('SELECT id, full_name FROM employees');
+  const employees = await db.all("SELECT id, full_name FROM employees");
   return { employees };
 }
 
@@ -26,42 +26,105 @@ export const action: ActionFunction = async ({ request }) => {
 
   const db = await getDB();
   await db.run(
-    'INSERT INTO timesheets (employee_id, start_time, end_time) VALUES (?, ?, ?)',
+    "INSERT INTO timesheets (employee_id, start_time, end_time) VALUES (?, ?, ?)",
     [employee_id, start_time, end_time]
   );
 
   return redirect("/timesheets");
-}
+};
 
 export default function NewTimesheetPage() {
-  const { employees } = useLoaderData() as { employees: { id: number; full_name: string }[] };
+  const { employees } = useLoaderData() as {
+    employees: { id: number; full_name: string }[];
+  };
+
   return (
-    <div>
-      <h1>Create New Timesheet</h1>
-      <Form method="post">
-        <div>
-          <label htmlFor="employee_id">Employee</label>
-          <select name="employee_id" id="employee_id" required>
-            {employees.map((employee: { id: number; full_name: string }) => (
-              <option key={employee.id} value={employee.id}>{employee.full_name}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="start_time">Start Time</label>
-          <input type="datetime-local" name="start_time" id="start_time" required />
-        </div>
-        <div>
-          <label htmlFor="end_time">End Time</label>
-          <input type="datetime-local" name="end_time" id="end_time" required />
-        </div>
-        <button type="submit">Create Timesheet</button>
-      </Form>
-      <hr />
-      <ul>
-        <li><a href="/timesheets">Timesheets</a></li>
-        <li><a href="/employees">Employees</a></li>
-      </ul>
+    <div className="container mx-auto p-6">
+      <div className="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Create New Timesheet
+        </h1>
+        <Form method="post" className="space-y-4">
+          <div>
+            <label
+              htmlFor="employee_id"
+              className="block text-gray-600 font-semibold mb-1"
+            >
+              Employee:
+            </label>
+            <select
+              name="employee_id"
+              id="employee_id"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select an Employee</option>
+              {employees.map((employee) => (
+                <option key={employee.id} value={employee.id}>
+                  {employee.full_name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="start_time"
+              className="block text-gray-600 font-semibold mb-1"
+            >
+              Start Time:
+            </label>
+            <input
+              type="datetime-local"
+              name="start_time"
+              id="start_time"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="end_time"
+              className="block text-gray-600 font-semibold mb-1"
+            >
+              End Time:
+            </label>
+            <input
+              type="datetime-local"
+              name="end_time"
+              id="end_time"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Create Timesheet
+          </button>
+        </Form>
+
+        <hr className="my-6" />
+
+        <ul className="space-y-2 text-center">
+          <li>
+            <a
+              href="/timesheets"
+              className="text-blue-600 hover:underline"
+            >
+              Timesheets
+            </a>
+          </li>
+          <li>
+            <a href="/employees" className="text-gray-600 hover:underline">
+              Employees
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
