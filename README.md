@@ -33,9 +33,9 @@ Specs
 
 - _Bonus_
 
-  1- Employee Photo (to be stored in the app's file system)**DONE**
+  1- Employee Photo (to be stored in the app's file system)**DONE, EMPLOYEE PHOTO IS REQUIRED OR IT WILL THROW AN ERROR**
 
-  2- Documents such as CV, ID, etc. (to be stored in the app's file system) **DONE**
+  2- Documents such as CV, ID, etc. (to be stored in the app's file system) **DONE, CV IS REQUIRED OR IT WILL THROW AN ERROR**
 
   3- Compliance validation (e.g. check if the employee is over 18 years old or if the salary is above a minimum wage or that an ID is uploaded) **DONE: SALARY CAN'T BE LESS THAN 15000**
 
