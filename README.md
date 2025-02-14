@@ -12,6 +12,8 @@ It consists of **4 views**, there are 13 requirements and 12 bonus features.
 **Create/Update Form**
 
 A page displaying a form used to create and update a single employee, it allows the user to:
+
+
 **RUN FIRST THE BACKEND USING NODE SERVER.JS BESIDES ALL THE OTHER RUNS**
 
 - Create a new employee **DONE**
@@ -63,7 +65,7 @@ Specs
 
   5- Search bar **DONE**
 
-  6- Sorting by various fields **DONE : SORTING BY ID AND FULL NAME, IT IS GONNA SHOW THE ARROW ON THE ID ONLY IF YOU WANT TO SORT BY FULL NAME YOU HAVE TO CLICK ON IT SO THE ARROW SHOWS**
+  6- Sorting by various fields **DONE : SORTING BY ID AND FULL NAME, IT IS GONNA SHOW THE ARROW ON THE ID ONLY AT FIRST IF YOU WANT TO SORT BY FULL NAME YOU HAVE TO CLICK ON IT SO THE ARROW SHOWS**
 
   7- Filtering **DID THE FILTERING ON THE TIMESHEETS VIEW ONLY**
 
@@ -110,7 +112,7 @@ Specs
 
 - _Bonus_
 
-  11- Search bar **DONE IT ONLY FOR THE EMPLOYEES**
+  11- Search bar **DID IT ONLY FOR THE EMPLOYEES**
 
   12- Filtering by employee **DONE**
 
